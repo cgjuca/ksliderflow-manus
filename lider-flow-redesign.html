@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Líder Flow - Metodologia de Liderança</title>
+    <meta name="description" content="Desenvolvimento de liderança baseado em neurociência e comportamento humano.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #1a2a4a;
+            --gold: #d4a574;
+            --light-blue: #f0f4f8;
+            --dark-blue: #1e3a5f;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 0;
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-shrink: 0;
+        }
+
+        .logo-nav {
+            height: 40px;
+            width: auto;
+        }
+
+        .nav-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--navy);
+            white-space: nowrap;
+        }
+
+        .nav-index {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .nav-btn {
+            padding: 8px 14px;
+            border: 2px solid var(--gold);
+            border-radius: 20px;
+            background: transparent;
+            color: var(--navy);
+            cursor: pointer;
+            white-space: nowrap;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: var(--gold);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(212, 165, 116, 0.3);
+        }
+
+        .nav-btn.active {
+            background: var(--navy);
+            color: white;
+            border-color: var(--navy);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--dark-blue) 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 60px 20px;
+        }
+
+        section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: var(--navy);
+        }
+
+        .section-white {
+            background: white;
+        }
+
+        .section-navy {
+            background: var(--navy);
+            color: white;
+        }
+
+        .section-light {
+            background: var(--light-blue);
+        }
+
+        /* Grid Layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .grid-6 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        /* Image Styles */
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .image-container {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Content Box */
+        .content-box {
+            background: var(--navy);
+            color: white;
+            padding: 40px;
+            border-radius: 8px;
+        }
+
+        .content-box h2 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .content-box p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        /* Feature Grid */
+        .feature-box {
+            background: var(--dark-blue);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            color: white;
+            font-weight: 500;
+        }
+
+        .section-navy .feature-box {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Impact Cards */
+        .impact-card {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .impact-card h3 {
+            color: var(--gold);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        /* Quote Section */
+        .quote-container {
+            text-align: center;
+            padding: 40px;
+            position: relative;
+        }
+
+        .quote-text {
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .quote-author {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        /* List Styles */
+        .check-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .check-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .check-list li:before {
+            content: "✓";
+            color: var(--gold);
+            font-weight: bold;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--dark-blue) 100%);
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .cta-section h2 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+        }
+
+        .cta-btn {
+            background: var(--gold);
+            color: var(--navy);
+            padding: 15px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .cta-btn:hover {
+            background: #e5b85d;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Modules Section */
+        .modules-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .modules-title h2 {
+            font-size: 2.5rem;
+            color: var(--navy);
+            margin-bottom: 20px;
+        }
+
+        .modules-title-line {
+            width: 100px;
+            height: 4px;
+            background: var(--gold);
+            margin: 0 auto;
+        }
+
+        .module-section {
+            margin-bottom: 80px;
+        }
+
+        .module-title {
+            font-size: 1.8rem;
+            color: var(--gold);
+            text-align: center;
+            margin-bottom: 40px;
+            font-weight: 600;
+        }
+
+        .roadmap {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .roadmap-item {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            position: relative;
+            border-left: 5px solid var(--gold);
+            transition: all 0.3s;
+        }
+
+        .roadmap-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .roadmap-number {
+            position: absolute;
+            top: -15px;
+            left: 30px;
+            background: var(--gold);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .roadmap-item h4 {
+            color: var(--navy);
+            margin-bottom: 15px;
+            margin-top: 10px;
+            font-size: 1.1rem;
+        }
+
+        .roadmap-item p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--navy);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            section h2 {
+                font-size: 1.8rem;
+            }
+
+            .check-list {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-index {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="nav-container">
+                <div class="nav-left">
+                    <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310419663028562142/esNVzZAAWnuhzKDR.png" alt="KS Lider Flow Logo" class="logo-nav">
+                    <h1 class="nav-title">LÍDER FLOW</h1>
+                </div>
+                <div class="nav-index">
+                    <button class="nav-btn active" onclick="scrollToSection('hero')">Início</button>
+                    <button class="nav-btn" onclick="scrollToSection('methodology')">Metodologia</button>
+                    <button class="nav-btn" onclick="scrollToSection('context')">Contexto</button>
+                    <button class="nav-btn" onclick="scrollToSection('problem')">Problema</button>
+                    <button class="nav-btn" onclick="scrollToSection('proposal')">Proposta</button>
+                    <button class="nav-btn" onclick="scrollToSection('impact')">Impacto</button>
+                    <button class="nav-btn" onclick="scrollToSection('differential')">Diferencial</button>
+                    <button class="nav-btn" onclick="scrollToSection('modules')">Módulos</button>
+                    <button class="nav-btn" onclick="scrollToSection('contact')">Contato</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="container">
+            <h1>SEJA<br>LÍDER<br>FLOW!</h1>
+            <p>Desenvolvimento de liderança baseado em neurociência e comportamento humano</p>
+        </div>
+    </section>
+
+    <!-- Methodology Section -->
+    <section id="methodology" class="section-white">
+        <div class="container">
+            <div class="grid-2">
+                <div class="content-box">
+                    <h2>Metodologia<br>LÍDER FLOW</h2>
+                    <p>Desenvolvimento de liderança baseado em neurociência e comportamento humano que ensina o líder primeiramente regular a si mesmo para regular o ambiente.</p>
+                    <p>Integra autoconexão, comunicação ajustada, influência e equilíbrio entre poder e leveza para gerar engajamento, segurança psicológica e resultados sustentáveis.</p>
+                </div>
+                <div class="image-container">
+                    <img src="https://private-us-east-1.manuscdn.com/sessionFile/ERoE31CeDRuJPQbfJy97l0/sandbox/Ito1polRNAJrH4srnJxuIc-img-2_1771696793000_na1fn_bWV0aG9kb2xvZ3ktdGVhbS1jb2xsYWJvcmF0aW9u.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvRVJvRTMxQ2VEUnVKUFFiZkp5OTdsMC9zYW5kYm94L0l0bzFwb2xSTkFKckg0c3JuSnh1SWMtaW1nLTJfMTc3MTY5Njc5MzAwMF9uYTFmbl9iV1YwYUc5a2IyeHZaM2t0ZEdWaGJTMWpiMnhzWVdKdmNtRjBhVzl1LnBuZz94LW9zcy1wcm9jZXNzPWltYWdlL3Jlc2l6ZSx3XzE5MjAsaF8xOTIwL2Zvcm1hdCx3ZWJwL3F1YWxpdHkscV84MCIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc5ODc2MTYwMH19fV19&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=B6enwAzN9Qbtk7Pv8XjtVd25BJuA-l3km9tTbIfNcRYBDEjijb1dL0h6DoRefz76jSA3rqSf9Tp6kCGynZ~l4RE6hUI8q8~CRnbwdarmy1yyitiI41aFidpbDZYTv~~o6DndyTNSXeMcEpbQV6EVe~-3xLukGppHc4rM90-lN-ZYgr5yWcX-29kcTStSQ6Wkxfvx34veP0KtfXr-5R~Bt-os~oOouGaCcieighmhOAshwNVEt63gCVCeSeCHOaKuOIarvgwEh3uvV~05YiU~kDcBVGVjsn7iEAkSJsQuhiUOiyR3JcxeknP-vlhmk7G1tGnWN0tMo8Zh-xBd2QdsXQ__" alt="Equipe Colaborando">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Context Section -->
+    <section id="context" class="section-navy">
+        <div class="container">
+            <h2 style="text-align: center; color: white;">CONTEXTO ORGANIZACIONAL</h2>
+            <div style="max-width: 800px; margin: 0 auto;">
+                <p style="font-size: 1.2rem; margin-bottom: 20px;">O desempenho de uma equipe não depende apenas de estratégia ou competência técnica. Depende, sobretudo, da qualidade da liderança.</p>
+                <p style="margin-bottom: 30px; opacity: 0.9;">Estudos da Gallup indicam que a liderança é responsável por até 70% da variação no engajamento das equipes.</p>
+                
+                <h3 style="color: var(--gold); margin-bottom: 20px;">Ambientes com maior segurança psicológica apresentam:</h3>
+                <ul class="check-list" style="color: white;">
+                    <li>Mais colaboração</li>
+                    <li>Maior inovação</li>
+                    <li>Redução de comportamentos defensivos</li>
+                    <li>Melhor desempenho coletivo</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section id="problem" class="section-white">
+        <div class="container">
+            <div class="grid-2" style="grid-template-columns: 1fr 1.2fr;">
+                <div class="image-container">
+                    <img src="https://private-us-east-1.manuscdn.com/sessionFile/ERoE31CeDRuJPQbfJy97l0/sandbox/Ito1polRNAJrH4srnJxuIc-img-3_1771696797000_na1fn_cHJvYmxlbS13b3JrcGxhY2UtdGVuc2lvbg.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvRVJvRTMxQ2VEUnVKUFFiZkp5OTdsMC9zYW5kYm94L0l0bzFwb2xSTkFKckg0c3JuSnh1SWMtaW1nLTNfMTc3MTY5Njc5NzAwMF9uYTFmbl9jSEp2WW14bGJTMTNiM0pyY0d4aFkyVXRkR1Z1YzJsdmJnLnBuZz94LW9zcy1wcm9jZXNzPWltYWdlL3Jlc2l6ZSx3XzE5MjAsaF8xOTIwL2Zvcm1hdCx3ZWJwL3F1YWxpdHkscV84MCIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc5ODc2MTYwMH19fV19&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=l2GPRHLYeKcmilfCC2LH5xLurXSyt7dit4QcJ2hgokdpQx3WlyFOIZMvBNBPGYcrehF0k2Fg-O6dXLTlfOl8rJaCUISyDomaZw7AAWtVa02ofUY2-2k14VsMTIYMnbxKc17doa5h3ZaIoCvQQDnGD5yqDfLeMaNsMmmy-4HQIW34nQGuoCeHSIuuWyw0li7GqMt3IsZIYwOo1tujIlAnjL3GCDr0AXcTL~S~HgeMRr6Sj9C7ptBkNipkkjcrZAflJAYLrqf9MJolCti~7BgKVKSL-fbS-TgBdPKw6CZ5Fb7r3BQ7Ey6z-Z4nc2YjC91QXVVdmzf9GiAFogmdJGc8TA__" alt="Tensão no Trabalho">
+                </div>
+                <div>
+                    <h2>O PROBLEMA REAL</h2>
+                    <p>Em ambientes onde o líder ativa constantemente estados de alerta, observa-se:</p>
+                    <ul class="check-list" style="margin: 20px 0;">
+                        <li>Comunicação reativa</li>
+                        <li>Retenção de informação</li>
+                        <li>Queda de criatividade</li>
+                        <li>Aumento de conflitos</li>
+                    </ul>
+                    <div style="background: var(--light-blue); padding: 20px; border-left: 5px solid var(--gold); margin-top: 20px;">
+                        <p style="font-weight: 600; font-size: 1.1rem; color: var(--navy);">Isso não é apenas comportamental. É neurobiológico. O cérebro humano prioriza segurança antes de performance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Proposal Section -->
+    <section id="proposal" class="section-navy">
+        <div class="container">
+            <h2 style="text-align: center; color: white;">A PROPOSTA DO LÍDER FLOW</h2>
+            <p style="text-align: center; font-size: 1.2rem; max-width: 700px; margin: 0 auto 40px; color: rgba(255,255,255,0.9);">O Líder Flow foi estruturado para desenvolver líderes capazes de:</p>
+            
+            <div class="grid-3" style="margin-bottom: 40px;">
+                <div class="feature-box">Regular seu próprio estado emocional</div>
+                <div class="feature-box">Reduzir ativadores de ameaça no ambiente</div>
+                <div class="feature-box">Ajustar comunicação conforme perfis</div>
+                <div class="feature-box">Sustentar autoridade com equilíbrio</div>
+                <div class="feature-box">Construir ambientes de confiança</div>
+                <div class="feature-box">Gerar engajamento sustentável</div>
+            </div>
+
+            <div class="image-container">
+                <img src="https://private-us-east-1.manuscdn.com/sessionFile/ERoE31CeDRuJPQbfJy97l0/sandbox/Ito1polRNAJrH4srnJxuIc-img-4_1771696795000_na1fn_cHJvcG9zYWwtcG9zaXRpdmUtbGVhZGVyc2hpcA.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvRVJvRTMxQ2VEUnVKUFFiZkp5OTdsMC9zYW5kYm94L0l0bzFwb2xSTkFKckg0c3JuSnh1SWMtaW1nLTRfMTc3MTY5Njc5NTAwMF9uYTFmbl9jSEp2Y0c5ellXd3RjRzl6YVhScGRtVXRiR1ZoWkdWeWMyaHBjQS5wbmc~eC1vc3MtcHJvY2Vzcz1pbWFnZS9yZXNpemUsd18xOTIwLGhfMTkyMC9mb3JtYXQsd2VicC9xdWFsaXR5LHFfODAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3OTg3NjE2MDB9fX1dfQ__&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=XQzSlA9bBzpbMSi9V9JIAtDNH0pqL9CeuT7fy3m-32jMwrbnJsCB9q2PqfQhr5pTSuSrnXnh6H8F75GEQ0xNqhDGYKKNBwosvydjGZVjIbGp1c5UbwOrIR~a4RhuJ0o2FK0PGU2i~GfosGDooXc1h6Nn6SbQu8gRzRZHqlxJaJYNSS-Sq1VSmaj9fj9tD~vLmpreL2PluuHc0cpMixaR8ILcgjm4pX9Z0JZfsJmpgRePaNuLH0AkGxmPi5vUJuRF~uczv~DSmJNaGGczWPc4ZZTP~xadQ2buMCF7mwaiR9rdi2EGgtHOWHqEMDVl9lBW7KAdewpMQgO5~tJ4JcT2Iw__" alt="Liderança Positiva">
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Section -->
+    <section id="impact" class="section-light">
+        <div class="container">
+            <h2 style="text-align: center;">INDICADORES DE IMPACTO ORGANIZACIONAL</h2>
+            
+            <div class="grid-3">
+                <div class="impact-card">
+                    <h3>Engajamento</h3>
+                    <p>Redução de distanciamento emocional e aumento de pertencimento.</p>
+                </div>
+                <div class="impact-card">
+                    <h3>Segurança Psicológica</h3>
+                    <p>Maior abertura para diálogo, inovação e aprendizado.</p>
+                </div>
+                <div class="impact-card">
+                    <h3>Retenção de Talentos</h3>
+                    <p>Ambientes emocionalmente previsíveis reduzem rotatividade.</p>
+                </div>
+                <div class="impact-card">
+                    <h3>Produtividade</h3>
+                    <p>Menor desgaste emocional e maior consistência de performance.</p>
+                </div>
+                <div class="impact-card">
+                    <h3>Clima Organizacional</h3>
+                    <p>Redução de microconflitos e aumento de colaboração.</p>
+                </div>
+                <div class="impact-card">
+                    <h3>Resultados</h3>
+                    <p>Alinhamento estratégico com motivação intrínseca.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Differential Section -->
+    <section id="differential" class="section-white">
+        <div class="container">
+            <h2>DIFERENCIAL</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 30px;">O Líder Flow não é uma proposta motivacional. É um modelo estruturado que integra:</p>
+            
+            <div class="grid-2">
+                <div>
+                    <ul class="check-list" style="grid-template-columns: 1fr;">
+                        <li style="font-size: 1.1rem;">Evidências de mercado</li>
+                        <li style="font-size: 1.1rem;">Neurociência aplicada</li>
+                        <li style="font-size: 1.1rem;">Ferramentas práticas</li>
+                        <li style="font-size: 1.1rem;">Metodologia testada</li>
+                    </ul>
+                </div>
+                <div style="background: var(--light-blue); padding: 30px; border-radius: 8px;">
+                    <h3 style="color: var(--navy); margin-bottom: 15px;">Por que Líder Flow?</h3>
+                    <p>Porque combina rigor científico com aplicabilidade prática. Não é apenas teoria. É um sistema que transforma a forma como líderes entendem a si mesmos e ao seu impacto nas equipes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modules Section -->
+    <section id="modules" class="section-white">
+        <div class="container">
+            <div class="modules-title">
+                <h2>ESTRUTURA METODOLOGICA</h2>
+                <div class="modules-title-line"></div>
+            </div>
+
+            <!-- Module 1 -->
+            <div class="module-section">
+                <h3 class="module-title">Modulo 1 - Por que ser Lider Flow</h3>
+                <div class="roadmap">
+                    <div class="roadmap-item">
+                        <div class="roadmap-number">01</div>
+                        <h4>Aula 1 - Por que ser Lider Flow?</h4>
+                        <p>Entenda como a lideranca impacta biologicamente o lider e sua equipe. Descubra por que leveza e estrategia e nao fragilidade. Aqui voce comeca pelo essencial: o seu "porque" como lider.</p>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="roadmap-number">02</div>
+                        <h4>Aula 2: Lider Flow Hoje e no Futuro</h4>
+                        <p>Descubra por que o modelo antigo de lideranca nao funciona mais. Conheca as competencias indispensaveis para o mercado atual e as novas geracoes em um mundo acelerado.</p>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="roadmap-number">03</div>
+                        <h4>Aula 3: Beneficios de Ser um Lider Flow</h4>
+                        <p>Entenda os impactos neurobiologicos da sua lideranca na saude, criatividade e desempenho do time. Veja como ambientes seguros melhoram indicadores como produtividade.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Module 2 -->
+            <div class="module-section">
+                <h3 class="module-title">Modulo 2 - Autoconexao</h3>
+                <div class="roadmap">
+                    <div class="roadmap-item">
+                        <div class="roadmap-number">01</div>
+                        <h4>Aula 1 - Consciencia e Evolucao</h4>
+                        <p>Descubra como suas inseguracas e medos impactam sua lideranca. Reflita sobre seu verdadeiro proposito e elimine distracoes que sabotam sua autoridade.</p>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="roadmap-number">02</div>
+                        <h4>Aula 2 - Perfil Comportamental</h4>
+                        <p>Entenda seu perfil atraves do teste com 97% de precisao. Descubra seus pontos fortes, gatilhos e como adaptar sua comunicacao para cada tipo de pessoa.</p>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="roadmap-number">03</div>
+                        <h4>Aula 3 - Estilos de Lideranca</h4>
+                        <p>Conheca os quatro estilos principais e identifique o seu. Aprenda a transformar qualquer estilo em lideranca ressonante, aquela que inspira e regula o ambiente.</p>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="roadmap-number">04</div>
+                        <h4>Aula 4 - Regulacao da Mente e do Corpo</h4>
+                        <p>Aprenda a diferenca entre sentir emocao e agir a partir dela. Tecnicas praticas de autorregulacao para liderar sem reatividade, mesmo sob pressao.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Module 3 -->
+            <div class="module-section">
+                <h3 class="module-title">Modulo 3 - Conexao e Influencia</h3>
+                <div class="roadmap">
+                    <div class="roadmap-item">
+                        <div class="roadmap-number">01</div>
+                        <h4>Aula 1 - O Poder da Conexao</h4>
+                        <p>Descubra por que conexao e uma necessidade biologica do cerebro humano. Entenda como pertencimento ativa seguranca e como seguranca ativa performance.</p>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="roadmap-number">02</div>
+                        <h4>Aula 2 - A Influencia do Carisma</h4>
+                        <p>Descubra que carisma nao e dom, mas uma habilidade treinavel baseada em presenca, empatia e vulnerabilidade. Conheca os 4 tipos de carisma.</p>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="roadmap-number">03</div>
+                        <h4>Aula 3 - Comunicacao Flow: Firmeza sem Ameaca</h4>
+                        <p>Aprenda a comunicar com clareza sem ativar o modo defesa do outro. Desenvolva uma comunicacao que regula conflitos e fortalece vinculos.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Module 4 -->
+            <div class="module-section">
+                <h3 class="module-title">Modulo 4 - Equilibrio do Poder e Leveza</h3>
+                <div class="roadmap">
+                    <div class="roadmap-item">
+                        <div class="roadmap-number">01</div>
+                        <h4>Aula 1 - Reconhecendo meus Liderados</h4>
+                        <p>Aprenda a ajustar sua comunicacao e cobranca de acordo com o perfil de cada pessoa do seu time. Distribua tarefas de forma estrategica.</p>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="roadmap-number">02</div>
+                        <h4>Aula 2 - Reconectando com meus Liderados</h4>
+                        <p>Conheca os quatro perfis do seu time (Acao, Inspiracao, Harmonia e Clareza) e aprenda a se comunicar com cada um deles.</p>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="roadmap-number">03</div>
+                        <h4>Aula 3 - Poder e Leveza</h4>
+                        <p>Equilibre autoridade com humanidade sem perder firmeza. Descubra frases e micro-habitos que reduzem ameaca e aumentam cooperacao.</p>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="roadmap-number">04</div>
+                        <h4>Aula 4 - Gestao de Recursos Humanos</h4>
+                        <p>Alinhe competencias tecnicas e comportamentais para aumentar eficiencia do time. Transforme gestao de pessoas em estrategia de resultado.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Module 5 -->
+            <div class="module-section">
+                <h3 class="module-title">Modulo 5 - Da Consciencia a Pratica</h3>
+                <div class="roadmap">
+                    <div class="roadmap-item">
+                        <div class="roadmap-number">01</div>
+                        <h4>Aula 1: Aplicando o Lider Flow no Dia a Dia</h4>
+                        <p>Mapa do Lider - Aprenda a fazer a leitura dos seus recursos e interferencia como estrategia de gestao de equipe.</p>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="roadmap-number">02</div>
+                        <h4>Aula 2: Encerramento e teste final</h4>
+                        <p>Consolidacao do aprendizado e validacao da jornada. Voce e um(a) Lider Flow! Porque consciencia e evolucao!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="cta" class="cta-section">
+        <div class="container">
+            <h2>Pronto para Transformar sua Liderança?</h2>
+            <p>Descubra como o Líder Flow pode revolucionar o desempenho da sua equipe</p>
+            <button class="cta-btn" onclick="window.location.href='#contact'">Comprar Curso</button>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section id="contact" style="background: white; padding: 60px 20px;">
+        <div class="container">
+            <h2 style="text-align: center; color: var(--navy); margin-bottom: 40px; font-size: 2rem;">Entre em Contato</h2>
+            <form style="max-width: 600px; margin: 0 auto; background: #f8fafc; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);" onsubmit="handleContactForm(event)">
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; color: var(--navy); font-weight: 600;">Nome Completo</label>
+                    <input type="text" id="name" name="name" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 1rem; transition: all 0.3s;">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; color: var(--navy); font-weight: 600;">Email</label>
+                    <input type="email" id="email" name="email" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 1rem; transition: all 0.3s;">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; color: var(--navy); font-weight: 600;">Telefone</label>
+                    <input type="tel" id="phone" name="phone" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 1rem; transition: all 0.3s;">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; color: var(--navy); font-weight: 600;">Empresa</label>
+                    <input type="text" id="company" name="company" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 1rem; transition: all 0.3s;">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; color: var(--navy); font-weight: 600;">Mensagem</label>
+                    <textarea id="message" name="message" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 1rem; transition: all 0.3s; resize: vertical; min-height: 120px;"></textarea>
+                </div>
+                <button type="submit" style="width: 100%; padding: 14px; background: var(--navy); color: white; border: none; border-radius: 6px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.3s;">Enviar Mensagem</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; margin-bottom: 30px; text-align: center;">
+                <div>
+                    <h4 style="margin-bottom: 10px; color: white;">Telefone</h4>
+                    <p><a href="tel:+5511999999999" style="color: var(--gold); text-decoration: none;">(11) 99999-9999</a></p>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 10px; color: white;">Email</h4>
+                    <p><a href="mailto:contato@liderflow.com.br" style="color: var(--gold); text-decoration: none;">contato@liderflow.com.br</a></p>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 10px; color: white;">Redes Sociais</h4>
+                    <p><a href="#" style="color: var(--gold); text-decoration: none; margin: 0 10px;">LinkedIn</a> | <a href="#" style="color: var(--gold); text-decoration: none; margin: 0 10px;">Instagram</a></p>
+                </div>
+            </div>
+            <div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px; text-align: center;">
+                <p>© 2026 Líder Flow. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+                updateActiveButton(sectionId);
+            }
+        }
+
+        function updateActiveButton(sectionId) {
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            const activeBtn = document.querySelector(`button[onclick="scrollToSection('${sectionId}')"]`);
+            if (activeBtn) activeBtn.classList.add('active');
+        }
+
+        function handleContactForm(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            alert('Obrigado! Sua mensagem foi recebida. Entraremos em contato em breve.');
+            document.querySelector('form').reset();
+        }   event.target.classList.add('active');
+        }
+
+        // Update active button on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.toLowerCase().includes(current)) {
+                    btn.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
