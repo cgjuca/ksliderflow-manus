@@ -335,7 +335,9 @@
     <section id="contact" style="background: white; padding: 60px 20px;">
         <div class="container">
             <h2 style="text-align: center; color: var(--navy); margin-bottom: 40px; font-size: 2rem;">Entre em Contato</h2>
-            <form style="max-width: 600px; margin: 0 auto; background: #f8fafc; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);" onsubmit="handleContactForm(event)">
+            <form action="https://formsubmit.co/contato@ksliderflow.com.br" method="POST" style="max-width: 600px; margin: 0 auto; background: #f8fafc; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="https://seu-dominio.com/obrigado.html">
                 <div style="margin-bottom: 20px;">
                     <label style="display: block; margin-bottom: 8px; color: var(--navy); font-weight: 600;">Nome Completo</label>
                     <input type="text" id="name" name="name" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 1rem; transition: all 0.3s;">
@@ -356,7 +358,7 @@
                     <label style="display: block; margin-bottom: 8px; color: var(--navy); font-weight: 600;">Mensagem</label>
                     <textarea id="message" name="message" required style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 1rem; transition: all 0.3s; resize: vertical; min-height: 120px;"></textarea>
                 </div>
-                <button type="submit" style="width: 100%; padding: 14px; background: var(--navy); color: white; border: none; border-radius: 6px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.3s;">Enviar Mensagem</button>
+                <button type="submit" style="width: 100%; padding: 14px; background: var(--navy); color: white; border: none; border-radius: 6px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.3s; hover: background: var(--gold);">Enviar Mensagem</button>
             </form>
         </div>
     </section>
