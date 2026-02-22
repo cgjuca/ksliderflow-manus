@@ -88,6 +88,27 @@ ${message}
     document.querySelector('form').reset();
 }
 
+// Hamburger menu toggle
+function toggleMobileMenu() {
+    const hamburger = document.querySelector('.hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    
+    hamburger.classList.toggle('active');
+    mobileMenu.classList.toggle('active');
+}
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', (event) => {
+    const hamburger = document.querySelector('.hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const nav = document.querySelector('nav');
+    
+    if (!nav.contains(event.target)) {
+        hamburger.classList.remove('active');
+        mobileMenu.classList.remove('active');
+    }
+});
+
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     // Set initial active button
