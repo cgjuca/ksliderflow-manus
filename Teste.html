@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teste Líder Flow - Diagnóstico</title>
+    <title>Líder Flow - Diagnóstico de Perfil</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
@@ -12,222 +12,267 @@
             --accent-blue: #00d2ff;
             --accent-purple: #7000ff;
             --text-light: #e0e6ed;
-            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-bg: rgba(255, 255, 255, 0.07);
             --acao: #ff4b2b; --inspiracao: #ffb400; --harmonia: #2ecc71; --clareza: #3498db;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        
         body {
             background-color: var(--bg-dark);
             color: var(--text-light);
             font-family: 'Inter', sans-serif;
             display: flex; justify-content: center; align-items: center; min-height: 100vh;
-            background-image: radial-gradient(circle at 20% 30%, rgba(0, 210, 255, 0.05) 0%, transparent 40%);
+            background-image: radial-gradient(circle at 20% 30%, rgba(0, 210, 255, 0.1) 0%, transparent 40%),
+                              radial-gradient(circle at 80% 70%, rgba(112, 0, 255, 0.1) 0%, transparent 40%);
         }
 
-        #quiz-container {
-            width: 90%; max-width: 600px;
-            background: var(--card-bg); backdrop-filter: blur(15px);
+        #main-wrapper {
+            width: 95%; max-width: 800px;
+            background: var(--card-bg); backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px; padding: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border-radius: 28px; padding: 50px; box-shadow: 0 25px 60px rgba(0,0,0,0.6);
         }
 
-        .screen { display: none; animation: fadeIn 0.5s ease forwards; }
+        .screen { display: none; animation: slideUp 0.6s ease-out forwards; }
         .active { display: block; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        input[type="text"], input[type="email"] {
-            width: 100%; padding: 15px; margin: 10px 0;
-            border-radius: 8px; border: 1px solid rgba(255,255,255,0.2);
-            background: rgba(0,0,0,0.3); color: white; font-size: 1rem;
+        /* Estilo Inputs Lead */
+        .lead-input {
+            width: 100%; padding: 18px; margin-bottom: 15px;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px; color: white; font-size: 1rem; outline: none;
         }
+        .lead-input:focus { border-color: var(--accent-blue); box-shadow: 0 0 10px rgba(0,210,255,0.3); }
 
-        .btn-main {
-            width: 100%; padding: 15px; border-radius: 30px; border: none;
+        /* Questões */
+        .question-text { font-size: 1.5rem; font-weight: 300; text-align: center; margin-bottom: 40px; line-height: 1.4; }
+        .options-row { display: flex; justify-content: space-between; gap: 15px; }
+        .opt-circle {
+            flex: 1; height: 60px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2);
+            background: none; color: white; font-weight: 600; cursor: pointer; transition: 0.3s;
+        }
+        .opt-circle:hover { background: var(--accent-blue); color: var(--bg-dark); border-color: var(--accent-blue); transform: scale(1.1); }
+
+        /* Resultado */
+        .profile-card {
+            background: rgba(0,0,0,0.3); padding: 25px; border-radius: 20px; border-left: 5px solid var(--accent-blue); margin-top: 25px;
+        }
+        .bar-container { margin: 20px 0; }
+        .bar-label { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 5px; }
+        .bar-outer { width: 100%; height: 12px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
+        .bar-inner { height: 100%; width: 0%; transition: width 1.5s cubic-bezier(0.1, 0.5, 0.2, 1); }
+
+        .btn-action {
+            width: 100%; padding: 18px; border-radius: 40px; border: none;
             background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
-            color: white; font-weight: 700; cursor: pointer; margin-top: 20px;
+            color: white; font-weight: 800; text-transform: uppercase; cursor: pointer; margin-top: 30px;
         }
 
-        .question-text { font-size: 1.2rem; text-align: center; margin-bottom: 30px; }
-
-        .options { display: flex; justify-content: space-between; gap: 10px; }
-        .opt-btn {
-            flex: 1; height: 50px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2);
-            background: none; color: white; cursor: pointer; transition: 0.3s;
-        }
-        .opt-btn:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
-
-        .result-bar-container { margin: 15px 0; text-align: left; }
-        .bar-bg { width: 100%; height: 10px; background: rgba(0,0,0,0.4); border-radius: 5px; margin-top: 5px; }
-        .bar-fill { height: 100%; border-radius: 5px; width: 0%; transition: width 1s ease-out; }
-
-        #loading { display: none; text-align: center; margin-top: 10px; font-size: 0.8rem; color: var(--accent-blue); }
+        #db-status { font-size: 0.7rem; text-align: center; margin-top: 10px; opacity: 0.5; }
     </style>
 </head>
 <body>
 
-<div id="quiz-container">
+<div id="main-wrapper">
     <div id="screen-lead" class="screen active">
-        <h2 style="text-align:center; margin-bottom:20px;">Inicie seu Diagnóstico</h2>
-        <p style="text-align:center; opacity:0.7; margin-bottom:20px;">Descubra seu fluxo de liderança predominante.</p>
-        <input type="text" id="user-name" placeholder="Seu Nome Completo" required>
-        <input type="email" id="user-email" placeholder="Seu Melhor E-mail" required>
-        <button class="btn-main" onclick="startQuiz()">Começar Teste</button>
+        <h1 style="text-align:center; font-size: 2.2rem; margin-bottom: 10px;">LÍDER FLOW</h1>
+        <p style="text-align:center; opacity:0.7; margin-bottom:35px;">Identifique seu perfil comportamental dominante e potencialize sua liderança.</p>
+        <input type="text" id="user-name" class="lead-input" placeholder="Seu Nome Completo">
+        <input type="email" id="user-email" class="lead-input" placeholder="Seu E-mail Profissional">
+        <button class="btn-action" onclick="startQuiz()">Iniciar Diagnóstico</button>
     </div>
 
     <div id="screen-quiz" class="screen">
-        <div style="text-align:right; font-size:0.8rem; margin-bottom:10px;" id="counter">1/16</div>
-        <p id="q-text" class="question-text"></p>
-        <div class="options">
-            <button class="opt-btn" onclick="nextQuestion(1)">1</button>
-            <button class="opt-btn" onclick="nextQuestion(2)">2</button>
-            <button class="opt-btn" onclick="nextQuestion(3)">3</button>
-            <button class="opt-btn" onclick="nextQuestion(4)">4</button>
-            <button class="opt-btn" onclick="nextQuestion(5)">5</button>
+        <div style="height:4px; width:100%; background:rgba(255,255,255,0.1); margin-bottom:30px; border-radius:2px;">
+            <div id="prog-bar" style="height:100%; width:0%; background:var(--accent-blue); transition:0.3s;"></div>
         </div>
-        <p style="display:flex; justify-content:space-between; margin-top:10px; font-size:0.7rem; opacity:0.5;">
+        <p id="q-text" class="question-text"></p>
+        <div class="options-row">
+            <button class="opt-circle" onclick="handleAnswer(1)">1</button>
+            <button class="opt-circle" onclick="handleAnswer(2)">2</button>
+            <button class="opt-circle" onclick="handleAnswer(3)">3</button>
+            <button class="opt-circle" onclick="handleAnswer(4)">4</button>
+            <button class="opt-circle" onclick="handleAnswer(5)">5</button>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-top:15px; font-size:0.7rem; opacity:0.5; letter-spacing:1px;">
             <span>NADA A VER</span><span>TOTALMENTE</span>
-        </p>
+        </div>
     </div>
 
     <div id="screen-result" class="screen">
-        <h2 style="text-align:center;">Resultado Final</h2>
-        <div id="bars-wrapper"></div>
-        <div id="winner-text" style="background:rgba(255,255,255,0.05); padding:15px; border-radius:10px; margin-top:20px; font-size:0.9rem;"></div>
+        <h2 style="text-align:center; font-size:1.8rem;">Seu Diagnóstico Líder Flow</h2>
+        <div id="bars-output"></div>
         
-        <button class="btn-main" onclick="downloadPDF()">Baixar Relatório em PDF</button>
-        <div id="loading">Enviando resultados para a base de dados...</div>
+        <div id="profile-details" class="profile-card">
+            </div>
+
+        <button class="btn-action" onclick="generatePDF()">Baixar Relatório Completo (PDF)</button>
+        <p id="db-status"></p>
     </div>
 </div>
 
 <script>
-    const questions = [
-        { t: 'acao', q: "Quando surge um problema urgente, ajo rapidamente para resolver." },
-        { t: 'inspiracao', q: "Gosto de conversar e trocar ideias antes de tomar decisões." },
-        { t: 'harmonia', q: "Prefiro seguir rotinas e métodos já testados." },
-        { t: 'clareza', q: "Tenho o hábito de revisar meu trabalho rigorosamente." },
-        { t: 'acao', q: "Gosto de assumir o comando e fazer as coisas acontecerem." },
-        { t: 'inspiracao', q: "Sou motivado(a) por um ambiente leve e positivo." },
-        { t: 'harmonia', q: "Prefiro planejar bem antes de começar uma tarefa nova." },
-        { t: 'clareza', q: "Analiso informações com atenção e lógica antes de decidir." },
-        { t: 'acao', q: "Prefiro ter autonomia total para decidir o que fazer." },
-        { t: 'inspiracao', q: "Tenho facilidade em envolver as pessoas e gerar entusiasmo." },
-        { t: 'harmonia', q: "Gosto de ajudar o time a manter a harmonia." },
-        { t: 'clareza', q: "Consigo identificar possíveis falhas e agir preventivamente." },
-        { t: 'acao', q: "Se algo não sai como o planejado, ajusto o rumo e sigo." },
-        { t: 'inspiracao', q: "Tenho facilidade para lidar com diferentes pessoas." },
-        { t: 'harmonia', q: "Prefiro ambientes previsíveis, onde sei o que esperar." },
-        { t: 'clareza', q: "Sou exigente comigo mesmo(a) e busco alta qualidade." }
-    ];
-
-    const profiles = {
-        acao: { n: "Ação (Executor)", c: "#ff4b2b", d: "Focado em resultados, direto e competitivo." },
-        inspiracao: { n: "Inspiração (Comunicador)", c: "#ffb400", d: "Criativo, entusiasta e sociável." },
-        harmonia: { n: "Harmonia (Planejador)", c: "#2ecc71", d: "Calmo, cooperativo e valoriza estabilidade." },
-        clareza: { n: "Clareza (Analista)", c: "#3498db", d: "Analítico, detalhista e busca precisão." }
+    // Configurações e Dados
+    const profileMeta = {
+        acao: { 
+            name: "Ação (Executor)", color: "#ff4b2b",
+            fortes: "Foco em resultados, tomada rápida de decisão, autonomia e competitividade.",
+            fracos: "Dificuldade em ouvir, impaciência com processos lentos e pode parecer autoritário.",
+            comunicar: "Vá direto ao ponto, mostre resultados e seja objetivo."
+        },
+        inspiracao: { 
+            name: "Inspiração (Comunicador)", color: "#ffb400",
+            fortes: "Criatividade, entusiasmo, facilidade em conectar pessoas e influenciar o ambiente.",
+            fracos: "Falta de foco em detalhes técnicos, impulsividade e dificuldade com rotinas rígidas.",
+            comunicar: "Seja positivo, reconheça as ideias e evite excesso de regras."
+        },
+        harmonia: { 
+            name: "Harmonia (Planejador)", color: "#2ecc71",
+            fortes: "Calma, paciência, lealdade e promoção de bom clima na equipe.",
+            fracos: "Resistência a mudanças bruscas, dificuldade em dizer 'não' e evita conflitos necessários.",
+            comunicar: "Seja respeitoso, explique mudanças com calma e evite pressão excessiva."
+        },
+        clareza: { 
+            name: "Clareza (Analista)", color: "#3498db",
+            fortes: "Precisão, organização, pensamento lógico e melhoria de métodos.",
+            fracos: "Perfeccionismo excessivo, lentidão por excesso de análise e pode parecer frio.",
+            comunicar: "Use dados e fatos, seja estruturado e explique o racional."
+        }
     };
 
-    let currentIdx = 0;
-    let userScores = { acao: 0, inspiracao: 0, harmonia: 0, clareza: 0 };
-    let userData = { name: "", email: "" };
+    const questions = [
+        { id: 'acao', txt: "Quando surge um problema urgente, ajo rapidamente para resolver." },
+        { id: 'inspiracao', txt: "Gosto de conversar e trocar ideias antes de tomar decisões." },
+        { id: 'harmonia', txt: "Prefiro seguir rotinas e métodos já testados, pois me sinto mais seguro(a)." },
+        { id: 'clareza', txt: "Tenho o hábito de revisar meu trabalho para garantir que tudo esteja correto." },
+        { id: 'acao', txt: "Gosto de assumir o comando e fazer as coisas acontecerem." },
+        { id: 'inspiracao', txt: "Sou motivado(a) por um ambiente leve, colaborativo e positivo." },
+        { id: 'harmonia', txt: "Prefiro planejar bem antes de começar uma tarefa nova." },
+        { id: 'clareza', txt: "Analiso todas as informações com atenção e lógica antes de decidir." },
+        { id: 'acao', txt: "Prefiro ter autonomia total para decidir o que fazer." },
+        { id: 'inspiracao', txt: "Tenho facilidade em envolver as pessoas e gerar entusiasmo." },
+        { id: 'harmonia', txt: "Gosto de ajudar o time a manter a harmonia e o clima equilibrado." },
+        { id: 'clareza', txt: "Consigo identificar possíveis falhas e agir preventivamente." },
+        { id: 'acao', txt: "Se algo não sai como o planejado, ajusto o rumo e sigo em frente." },
+        { id: 'inspiracao', txt: "Tenho facilidade para lidar com diferentes pessoas e estilos." },
+        { id: 'harmonia', txt: "Prefiro ambientes previsíveis, onde sei o que esperar." },
+        { id: 'clareza', txt: "Sou exigente comigo mesmo(a) e busco entregar com qualidade." }
+    ];
+
+    let currentQ = 0;
+    let scores = { acao: 0, inspiracao: 0, harmonia: 0, clareza: 0 };
+    let user = { name: "", email: "" };
 
     function startQuiz() {
-        userData.name = document.getElementById('user-name').value;
-        userData.email = document.getElementById('user-email').value;
-        if(!userData.name || !userData.email) return alert("Preencha os campos!");
+        user.name = document.getElementById('user-name').value;
+        user.email = document.getElementById('user-email').value;
+        if(!user.name || !user.email) return alert("Por favor, preencha seu nome e e-mail.");
         
         document.getElementById('screen-lead').classList.remove('active');
         document.getElementById('screen-quiz').classList.add('active');
-        showQuestion();
+        renderQuestion();
     }
 
-    function showQuestion() {
-        document.getElementById('q-text').innerText = questions[currentIdx].q;
-        document.getElementById('counter').innerText = `${currentIdx + 1}/${questions.length}`;
+    function renderQuestion() {
+        document.getElementById('q-text').innerText = questions[currentQ].txt;
+        document.getElementById('prog-bar').style.width = `${(currentQ / questions.length) * 100}%`;
     }
 
-    function nextQuestion(val) {
-        userScores[questions[currentIdx].t] += val;
-        currentIdx++;
-        if(currentIdx < questions.length) {
-            showQuestion();
+    function handleAnswer(val) {
+        scores[questions[currentQ].id] += val;
+        currentQ++;
+        if(currentQ < questions.length) {
+            renderQuestion();
         } else {
-            showFinalResult();
+            showResults();
         }
     }
 
-    function showFinalResult() {
+    function showResults() {
         document.getElementById('screen-quiz').classList.remove('active');
         document.getElementById('screen-result').classList.add('active');
-        
-        const wrapper = document.getElementById('bars-wrapper');
-        let winner = { key: '', val: -1 };
 
-        for(let p in userScores) {
-            if(userScores[p] > winner.val) winner = { key: p, val: userScores[p] };
-            const perc = (userScores[p] / 20) * 100;
-            wrapper.innerHTML += `
-                <div class="result-bar-container">
-                    <span style="font-size:0.8rem">${profiles[p].n}</span>
-                    <div class="bar-bg"><div class="bar-fill" style="width:${perc}%; background:${profiles[p].c}"></div></div>
+        const sorted = Object.entries(scores).sort((a,b) => b[1]-a[1]);
+        const winnerKey = sorted[0][0];
+        const winner = profileMeta[winnerKey];
+
+        // Render Bars
+        const output = document.getElementById('bars-output');
+        for(let key in scores) {
+            const perc = (scores[key] / 20) * 100;
+            output.innerHTML += `
+                <div class="bar-container">
+                    <div class="bar-label"><span>${profileMeta[key].name}</span><span>${perc}%</span></div>
+                    <div class="bar-outer"><div class="bar-inner" style="width:${perc}%; background:${profileMeta[key].color}"></div></div>
                 </div>
             `;
         }
 
-        document.getElementById('winner-text').innerHTML = `<strong>Perfil Predominante: ${profiles[winner.key].n}</strong><br>${profiles[winner.key].d}`;
-        
-        saveToDatabase();
+        // Details Card
+        document.getElementById('profile-details').innerHTML = `
+            <h3 style="color:${winner.color}; margin-bottom:10px;">Perfil Predominante: ${winner.name}</h3>
+            <p style="margin-bottom:15px; font-size:0.9rem; line-height:1.5;">${winner.fortes}</p>
+            <p style="font-size:0.85rem; opacity:0.8;"><strong>Pontos de Atenção:</strong> ${winner.fracos}</p>
+        `;
+
+        saveToSheet();
     }
 
-    // --- FUNÇÃO PARA SALVAR NA PLANILHA GOOGLE ---
-    function saveToDatabase() {
-        document.getElementById('loading').style.display = 'block';
+    function saveToSheet() {
+        const url = "SUA_URL_DO_APPS_SCRIPT"; 
+        const status = document.getElementById('db-status');
+        status.innerText = "Sincronizando com a base de dados...";
         
-        // Aqui você colocaria a URL do seu Google Apps Script (explico abaixo)
-        const webAppUrl = "https://script.google.com/macros/s/AKfycbxFUqUXg-Xw3pY0mgBKBCCFxEJtFg9mIoUyQXgJgg7aavdezVSBMlXpZjLkdvGmGldZew/exec"; 
-        
-        const payload = {
-            data: new Date().toLocaleString(),
-            nome: userData.name,
-            email: userData.email,
-            acao: userScores.acao,
-            inspiracao: userScores.inspiracao,
-            harmonia: userScores.harmonia,
-            clareza: userScores.clareza
-        };
-
-        // Simulação de salvamento (Fetch)
-        console.log("Enviando para DB:", payload);
-        
-        // Descomente quando tiver a URL:
-        /*
-        fetch(webAppUrl, { method: 'POST', body: JSON.stringify(payload) })
-        .then(() => document.getElementById('loading').innerText = "Dados salvos com sucesso!")
-        .catch(() => document.getElementById('loading').innerText = "Erro ao salvar na base.");
-        */
+        fetch(url, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: JSON.stringify({ ...user, ...scores, date: new Date().toISOString() })
+        }).then(() => status.innerText = "✓ Resultados salvos na base de dados.");
     }
 
-    // --- FUNÇÃO PARA GERAR PDF ---
-    function downloadPDF() {
+    function generatePDF() {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
-        
+        const sorted = Object.entries(scores).sort((a,b) => b[1]-a[1]);
+        const winner = profileMeta[sorted[0][0]];
+
+        doc.setFont("helvetica", "bold");
         doc.setFontSize(22);
-        doc.text("Relatório Líder Flow", 20, 20);
+        doc.text("Relatório de Perfil Líder Flow", 20, 30);
         
         doc.setFontSize(12);
-        doc.text(`Candidato: ${userData.name}`, 20, 40);
-        doc.text(`E-mail: ${userData.email}`, 20, 50);
+        doc.setFont("helvetica", "normal");
+        doc.text(`Nome: ${user.name}`, 20, 45);
+        doc.text(`E-mail: ${user.email}`, 20, 52);
+        doc.text(`Data: ${new Date().toLocaleDateString()}`, 20, 59);
+
+        doc.setDrawColor(200);
+        doc.line(20, 65, 190, 65);
+
+        doc.setFont("helvetica", "bold");
+        doc.text(`Perfil Predominante: ${winner.name}`, 20, 80);
         
-        doc.text("Pontuações:", 20, 70);
-        doc.text(`- Ação: ${userScores.acao}/20`, 20, 80);
-        doc.text(`- Inspiração: ${userScores.inspiracao}/20`, 20, 90);
-        doc.text(`- Harmonia: ${userScores.harmonia}/20`, 20, 100);
-        doc.text(`- Clareza: ${userScores.clareza}/20`, 20, 110);
-        
-        doc.save(`Resultado_LiderFlow_${userData.name}.pdf`);
+        doc.setFont("helvetica", "normal");
+        doc.text("Pontos Fortes:", 20, 95);
+        doc.setFontSize(10);
+        doc.text(doc.splitTextToSize(winner.fortes, 160), 20, 102);
+
+        doc.setFontSize(12);
+        doc.text("Pontos de Atenção (Fracos):", 20, 120);
+        doc.setFontSize(10);
+        doc.text(doc.splitTextToSize(winner.fracos, 160), 20, 127);
+
+        doc.setFontSize(12);
+        doc.text("Dica de Comunicação:", 20, 145);
+        doc.setFontSize(10);
+        doc.text(doc.splitTextToSize(winner.comunicar, 160), 20, 152);
+
+        doc.save(`LiderFlow_${user.name}.pdf`);
     }
 </script>
+
 </body>
 </html>
