@@ -18,6 +18,8 @@
         gtag('config', 'G-XXXXXXXXXX');
     </script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
     <style>
         * {
             margin: 0;
@@ -114,6 +116,9 @@
             background: #f9fafb;
             border-radius: 8px;
             border-left: 4px solid #1e40af;
+            transition: all 0.3s ease-out;
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .question-number {
@@ -386,139 +391,119 @@
     <div class="container">
         <div class="header">
             <h1>🎯 Teste de Perfil Comportamental</h1>
-            <p>Descubra seu perfil com a Metodologia Líder Flow</p>
+            <p>Descubra seu perfil na Metodologia Líder Flow</p>
         </div>
 
         <div class="content">
-            <!-- Seção 1: Dados Pessoais -->
-            <div class="form-section active" id="section-1">
-                <h2 style="margin-bottom: 30px; color: #1e40af;">Seus Dados</h2>
-                
+            <div id="alertContainer"></div>
+
+            <!-- Form Section -->
+            <div class="form-section active">
+                <h2>Seus Dados</h2>
                 <div class="form-group">
                     <label for="nome">Nome Completo *</label>
-                    <input type="text" id="nome" placeholder="Digite seu nome completo" required>
+                    <input type="text" id="nome" placeholder="Digite seu nome" required>
                 </div>
-
                 <div class="form-group">
                     <label for="email">E-mail *</label>
-                    <input type="email" id="email" placeholder="Digite seu e-mail" required>
+                    <input type="email" id="email" placeholder="seu@email.com" required>
                 </div>
-
                 <div class="button-group">
-                    <button class="btn-primary" onclick="goToSection(2)">Começar Teste →</button>
+                    <button class="btn-primary" onclick="startQuestions()">Começar Teste</button>
                 </div>
             </div>
 
-            <!-- Seção 2: Perguntas -->
-            <div class="questions-section" id="section-2">
+            <!-- Questions Section -->
+            <div class="questions-section">
                 <div class="progress-container">
                     <div class="progress-bar">
                         <div class="progress-fill" id="progressFill"></div>
                     </div>
-                    <div class="progress-text">
-                        <span id="currentQuestion">1</span> de <span id="totalQuestions">16</span>
-                    </div>
+                    <div class="progress-text" id="progressText">Pergunta 1 de 16</div>
                 </div>
-
                 <div id="questionsContainer"></div>
-
-                <div class="button-group">
-                    <button class="btn-secondary" onclick="goToSection(1)">← Voltar</button>
-                    <button class="btn-primary" onclick="goToSection(3)">Ver Resultado →</button>
-                </div>
             </div>
 
-            <!-- Seção 3: Resultados -->
-            <div class="results-section" id="section-3">
+            <!-- Results Section -->
+            <div class="results-section">
                 <div class="results-header">
-                    <h2>Seu Resultado</h2>
-                    <div class="profile-name" id="profileName"></div>
+                    <h2>Seu Perfil Comportamental</h2>
+                    <div class="profile-name" id="profileName">Carregando...</div>
+                    <div class="profile-description" id="profileDescription"></div>
                 </div>
-
-                <div class="profile-description" id="profileDescription"></div>
-
                 <div class="chart-container">
-                    <div class="chart-title">Seus Perfis</div>
+                    <div class="chart-title">Distribuição de Perfis</div>
                     <div id="resultsChart"></div>
                 </div>
-
                 <div class="button-group">
-                    <button class="btn-success" onclick="downloadPDF()">📥 Baixar PDF</button>
-                    <button class="btn-primary" onclick="sendToSheets()">📊 Enviar para Planilha</button>
-                    <button class="btn-secondary" onclick="goToSection(1)">← Fazer Novo Teste</button>
+                    <button class="btn-primary" onclick="downloadPDF()">📥 Baixar PDF</button>
+                    <button class="btn-success" onclick="sendToSheets()">📊 Enviar para Planilha</button>
+                    <button class="btn-secondary" onclick="restartTest()">🔄 Fazer Novamente</button>
                 </div>
             </div>
-
-            <div id="alertContainer"></div>
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
     <script>
-        // Dados do teste
-        const questions = [
-            { text: "Quando surge um problema urgente, ajo rapidamente para resolver.", profile: "acao" },
-            { text: "Gosto de conversar e trocar ideias antes de tomar decisões.", profile: "inspiracao" },
-            { text: "Prefiro seguir rotinas e métodos já testados, pois me sinto mais seguro(a).", profile: "harmonia" },
-            { text: "Tenho o hábito de revisar meu trabalho para garantir que tudo esteja correto.", profile: "clareza" },
-            { text: "Gosto de assumir o comando e fazer as coisas acontecerem.", profile: "acao" },
-            { text: "Sou motivado(a) por um ambiente leve, colaborativo e positivo.", profile: "inspiracao" },
-            { text: "Prefiro planejar bem antes de começar uma tarefa nova.", profile: "harmonia" },
-            { text: "Analiso todas as informações com atenção e lógica antes de decidir.", profile: "clareza" },
-            { text: "Prefiro ter autonomia total para decidir o que fazer.", profile: "acao" },
-            { text: "Tenho facilidade em envolver as pessoas e gerar entusiasmo.", profile: "inspiracao" },
-            { text: "Gosto de ajudar o time a manter a harmonia e o clima equilibrado.", profile: "harmonia" },
-            { text: "Consigo identificar possíveis falhas e agir preventivamente.", profile: "clareza" },
-            { text: "Se algo não sai como o planejado, ajusto o rumo e sigo em frente.", profile: "acao" },
-            { text: "Tenho facilidade para lidar com diferentes pessoas e estilos.", profile: "inspiracao" },
-            { text: "Prefiro ambientes previsíveis, onde sei o que esperar.", profile: "harmonia" },
-            { text: "Sou exigente comigo mesmo(a) e busco entregar com qualidade.", profile: "clareza" }
-        ];
-
+        // Descrições dos Perfis
         const profileDescriptions = {
             acao: {
-                name: "AÇÃO - Executor",
-                description: "Você é focado em resultados, direto e competitivo. Tem facilidade em tomar decisões rápidas e liderar mudanças. Seu ponto forte é a capacidade de agir rapidamente e fazer as coisas acontecerem. Trabalhe no desenvolvimento da escuta ativa e na paciência com processos mais lentos."
+                name: '🎯 AÇÃO (Executor)',
+                description: 'Você é focado em resultados, direto e competitivo. Gosta de desafios e toma decisões rápidas. Seu estilo é prático e orientado para metas.'
             },
             inspiracao: {
-                name: "INSPIRAÇÃO - Comunicador",
-                description: "Você é criativo, entusiasta e sociável. Tem facilidade em envolver as pessoas e gerar engajamento. Seu ponto forte é a capacidade de inspirar e motivar equipes. Trabalhe no desenvolvimento de foco e na conclusão de projetos."
+                name: '✨ INSPIRAÇÃO (Comunicador)',
+                description: 'Você é criativo, entusiasta e sociável. Inspira outras pessoas e gosta de trabalhar em equipe. Seu estilo é inovador e motivador.'
             },
             harmonia: {
-                name: "HARMONIA - Planejador",
-                description: "Você é calmo, cooperativo e valoriza estabilidade. Tem facilidade em manter o clima equilibrado e trabalhar em equipe. Seu ponto forte é a capacidade de criar ambientes seguros e harmoniosos. Trabalhe no desenvolvimento da assertividade e na tomada de decisões mais rápidas."
+                name: '🤝 HARMONIA (Planejador)',
+                description: 'Você é calmo, cooperativo e valoriza a estabilidade. Gosta de manter bom relacionamento com todos. Seu estilo é organizado e equilibrado.'
             },
             clareza: {
-                name: "CLAREZA - Analista",
-                description: "Você é analítico, detalhista e busca precisão. Tem facilidade em identificar problemas e soluções lógicas. Seu ponto forte é a capacidade de análise profunda e qualidade. Trabalhe no desenvolvimento da flexibilidade e na aceitação de ambiguidade."
+                name: '🧠 CLAREZA (Analista)',
+                description: 'Você é analítico, detalhista e busca precisão. Gosta de dados e informações bem estruturadas. Seu estilo é lógico e sistemático.'
             }
         };
 
+        // Perguntas do Teste
+        const questions = [
+            { text: 'Prefiro tomar decisões rápidas e diretas', profile: 'acao' },
+            { text: 'Gosto de inspirar e motivar outras pessoas', profile: 'inspiracao' },
+            { text: 'Valorizo a harmonia e o bom relacionamento', profile: 'harmonia' },
+            { text: 'Prefiro analisar dados antes de decidir', profile: 'clareza' },
+            { text: 'Sou competitivo e focado em resultados', profile: 'acao' },
+            { text: 'Gosto de inovar e criar novas ideias', profile: 'inspiracao' },
+            { text: 'Prefiro trabalhar em equipe de forma cooperativa', profile: 'harmonia' },
+            { text: 'Gosto de estrutura e organização', profile: 'clareza' },
+            { text: 'Tomo riscos calculados para alcançar objetivos', profile: 'acao' },
+            { text: 'Sou comunicativo e gosto de networking', profile: 'inspiracao' },
+            { text: 'Evito conflitos e busco consenso', profile: 'harmonia' },
+            { text: 'Sou meticuloso e atento aos detalhes', profile: 'clareza' },
+            { text: 'Minha energia vem de vencer desafios', profile: 'acao' },
+            { text: 'Minha energia vem de conectar pessoas', profile: 'inspiracao' },
+            { text: 'Minha energia vem de ajudar os outros', profile: 'harmonia' },
+            { text: 'Minha energia vem de resolver problemas complexos', profile: 'clareza' }
+        ];
+
+        let currentQuestion = 0;
         let answers = {};
-        let currentSection = 1;
 
         // Inicializar
         function init() {
             renderQuestions();
-            document.getElementById('totalQuestions').textContent = questions.length;
         }
 
-        // Renderizar perguntas
+        // Renderizar Perguntas
         function renderQuestions() {
             const container = document.getElementById('questionsContainer');
-            container.innerHTML = '';
-
-            questions.forEach((q, index) => {
-                const div = document.createElement('div');
-                div.className = 'question-container';
-                div.innerHTML = `
-                    <div class="question-number">Pergunta ${index + 1}</div>
-                    <div class="question-text">${q.text}</div>
+            container.innerHTML = `
+                <div class="question-container">
+                    <div class="question-number">Pergunta ${currentQuestion + 1} de ${questions.length}</div>
+                    <div class="question-text">${questions[currentQuestion].text}</div>
                     <div class="scale-container">
                         ${[1, 2, 3, 4, 5].map(value => `
-                            <button class="scale-button ${answers[index] === value ? 'selected' : ''}" 
-                                    onclick="selectAnswer(${index}, ${value})">
+                            <button class="scale-button ${answers[currentQuestion] === value ? 'selected' : ''}" 
+                                    onclick="selectAnswer(${value})">
                                 ${value}
                             </button>
                         `).join('')}
@@ -527,65 +512,64 @@
                         <span>Nada a ver</span>
                         <span>Totalmente</span>
                     </div>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        // Selecionar resposta
-        function selectAnswer(questionIndex, value) {
-            answers[questionIndex] = value;
-            renderQuestions();
+                </div>
+            `;
             updateProgress();
-            gtag('event', 'resposta_teste', {'pergunta': questionIndex + 1, 'valor': value});
         }
 
-        // Atualizar barra de progresso
+        // Selecionar Resposta
+        function selectAnswer(value) {
+            answers[currentQuestion] = value;
+            
+            // Animar saída da pergunta
+            const questionContainer = document.querySelector('.question-container');
+            questionContainer.style.opacity = '0';
+            questionContainer.style.transform = 'translateY(20px)';
+            
+            // Aguardar animação e ir para próxima pergunta
+            setTimeout(() => {
+                if (currentQuestion < questions.length - 1) {
+                    currentQuestion++;
+                    renderQuestions();
+                    // Animar entrada da nova pergunta
+                    setTimeout(() => {
+                        const newQuestion = document.querySelector('.question-container');
+                        newQuestion.style.opacity = '1';
+                        newQuestion.style.transform = 'translateY(0)';
+                    }, 50);
+                } else {
+                    finishTest();
+                }
+            }, 300);
+        }
+
+
+
+        // Atualizar Progresso
         function updateProgress() {
-            const answered = Object.keys(answers).length;
-            const percentage = (answered / questions.length) * 100;
-            document.getElementById('progressFill').style.width = percentage + '%';
-            document.getElementById('currentQuestion').textContent = answered;
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressText').textContent = `Pergunta ${currentQuestion + 1} de ${questions.length}`;
         }
 
-        // Ir para seção
-        function goToSection(section) {
-            // Validar seção 1
-            if (section === 2) {
-                const nome = document.getElementById('nome').value.trim();
-                const email = document.getElementById('email').value.trim();
-
-                if (!nome || !email) {
-                    showAlert('Por favor, preencha nome e e-mail', 'error');
-                    return;
-                }
-
-                if (!email.includes('@')) {
-                    showAlert('Por favor, digite um e-mail válido', 'error');
-                    return;
-                }
+        // Começar Teste
+        function startQuestions() {
+            const nome = document.getElementById('nome').value;
+            const email = document.getElementById('email').value;
+            
+            if (!nome || !email) {
+                showAlert('Por favor, preencha nome e e-mail.', 'error');
+                return;
             }
 
-            // Validar seção 2
-            if (section === 3) {
-                if (Object.keys(answers).length < questions.length) {
-                    showAlert('Por favor, responda todas as perguntas', 'error');
-                    return;
-                }
-                calculateResults();
-            }
-
-            // Mostrar/ocultar seções
-            document.querySelectorAll('[id^="section-"]').forEach(el => {
-                el.classList.remove('active');
-            });
-            document.getElementById('section-' + section).classList.add('active');
-            currentSection = section;
-            window.scrollTo(0, 0);
+            document.querySelector('.form-section').classList.remove('active');
+            document.querySelector('.questions-section').classList.add('active');
+            renderQuestions();
+            gtag('event', 'teste_iniciado');
         }
 
-        // Calcular resultados
-        function calculateResults() {
+        // Finalizar Teste
+        function finishTest() {
             const scores = {
                 acao: 0,
                 inspiracao: 0,
@@ -593,11 +577,10 @@
                 clareza: 0
             };
 
-            questions.forEach((q, index) => {
-                if (answers[index]) {
-                    scores[q.profile] += answers[index];
-                }
-            });
+            for (let i = 0; i < questions.length; i++) {
+                const profile = questions[i].profile;
+                scores[profile] += answers[i] || 0;
+            }
 
             // Encontrar perfil predominante
             const maxScore = Math.max(...Object.values(scores));
@@ -632,6 +615,9 @@
             document.getElementById('resultsChart').innerHTML = chartHtml;
             window.scores = scores;
             window.primaryProfile = primaryProfile;
+
+            document.querySelector('.questions-section').classList.remove('active');
+            document.querySelector('.results-section').classList.add('active');
         }
 
         // Baixar PDF
@@ -649,40 +635,39 @@
             gtag('event', 'download_pdf', {'perfil': window.primaryProfile});
         }
 
-       // Enviar para Google Sheets
-function sendToSheets() {
-    const nome = document.getElementById('nome').value;
-    const email = document.getElementById('email').value;
-    const data = {
-        nome: nome,
-        email: email,
-        perfil: window.primaryProfile,
-        acao: window.scores.acao,
-        inspiracao: window.scores.inspiracao,
-        harmonia: window.scores.harmonia,
-        clareza: window.scores.clareza,
-        data: new Date().toLocaleString('pt-BR')
-    };
+        // Enviar para Google Sheets
+        function sendToSheets() {
+            const nome = document.getElementById('nome').value;
+            const email = document.getElementById('email').value;
+            const data = {
+                nome: nome,
+                email: email,
+                perfil: window.primaryProfile,
+                acao: window.scores.acao,
+                inspiracao: window.scores.inspiracao,
+                harmonia: window.scores.harmonia,
+                clareza: window.scores.clareza,
+                data: new Date().toLocaleString('pt-BR')
+            };
 
-    // URL corrigida do Google Apps Script
-    const formUrl = 'https://script.google.com/macros/s/AKfycbyfccpNI4Fn1p4q_r77QRTorxnqyReTIWUNJJg3IJpBz946CFC8l8MLBHOKDkDsvNpBRQ/usercripts';
+            // URL corrigida do Google Apps Script
+            const formUrl = 'https://script.google.com/macros/s/AKfycbyfccpNI4Fn1p4q_r77QRTorxnqyReTIWUNJJg3IJpBz946CFC8l8MLBHOKDkDsvNpBRQ/usercripts';
 
-    // Enviar dados como JSON
-    fetch(formUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data ),
-        mode: 'no-cors'
-    }).then(() => {
-        showAlert('✓ Dados enviados com sucesso! Você receberá um e-mail em breve.', 'success');
-        gtag('event', 'envio_sheets', {'perfil': window.primaryProfile});
-    }).catch(() => {
-        showAlert('Houve um erro ao enviar os dados. Tente novamente.', 'error');
-    });
-}
-
+            // Enviar dados como JSON
+            fetch(formUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data),
+                mode: 'no-cors'
+            }).then(() => {
+                showAlert('✓ Dados enviados com sucesso! Você receberá um e-mail em breve.', 'success');
+                gtag('event', 'envio_sheets', {'perfil': window.primaryProfile});
+            }).catch(() => {
+                showAlert('Houve um erro ao enviar os dados. Tente novamente.', 'error');
+            });
+        }
 
         // Mostrar alerta
         function showAlert(message, type) {
@@ -696,6 +681,16 @@ function sendToSheets() {
             setTimeout(() => {
                 alertDiv.remove();
             }, 5000);
+        }
+
+        // Reiniciar Teste
+        function restartTest() {
+            currentQuestion = 0;
+            answers = {};
+            document.querySelector('.results-section').classList.remove('active');
+            document.querySelector('.form-section').classList.add('active');
+            document.getElementById('nome').value = '';
+            document.getElementById('email').value = '';
         }
 
         // Inicializar ao carregar
