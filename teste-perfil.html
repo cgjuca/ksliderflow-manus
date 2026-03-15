@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Perfil Comportamental - Líder Flow</title>
+    <meta name="description" content="Descubra seu perfil comportamental com o teste interativo da Metodologia Líder Flow">
+    <meta property="og:title" content="Teste de Perfil Comportamental - Líder Flow">
+    <meta property="og:description" content="Descubra seu perfil comportamental com o teste interativo da Metodologia Líder Flow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ksliderflow.com.br/teste-perfil.html">
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        /* Form Section */
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #1e40af;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #1e40af;
+            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+        }
+
+        /* Questions Section */
+        .questions-section {
+            display: none;
+        }
+
+        .questions-section.active {
+            display: block;
+        }
+
+        .question-container {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9fafb;
+            border-radius: 8px;
+            border-left: 4px solid #1e40af;
+        }
+
+        .question-number {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 15px;
+        }
+
+        .scale-container {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+        }
+
+        .scale-button {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            color: #6b7280;
+        }
+
+        .scale-button:hover {
+            border-color: #1e40af;
+            background: #eff6ff;
+        }
+
+        .scale-button.selected {
+            background: #1e40af;
+            color: white;
+            border-color: #1e40af;
+        }
+
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: #9ca3af;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-bottom: 30px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1e40af, #3b82f6);
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 8px;
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+
+        /* Results Section */
+        .results-section {
+            display: none;
+        }
+
+        .results-section.active {
+            display: block;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .results-header h2 {
+            font-size: 2rem;
+            color: #1e40af;
+            margin-bottom: 10px;
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            color: #059669;
+            font-weight: 700;
+        }
+
+        .profile-description {
+            margin-top: 15px;
+            padding: 20px;
+            background: #f0fdf4;
+            border-left: 4px solid #059669;
+            border-radius: 6px;
+            color: #166534;
+            line-height: 1.6;
+        }
+
+        .chart-container {
+            margin: 40px 0;
+            padding: 30px;
+            background: #f9fafb;
+            border-radius: 8px;
+        }
+
+        .chart-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 20px;
+        }
+
+        .profile-bar {
+            margin-bottom: 20px;
+        }
+
+        .profile-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .bar {
+            width: 100%;
+            height: 30px;
+            background: #e5e7eb;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bar-fill {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: width 0.5s ease-out;
+        }
+
+        .bar-fill.acao { background: linear-gradient(90deg, #dc2626, #ef4444); }
+        .bar-fill.inspiracao { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .bar-fill.harmonia { background: linear-gradient(90deg, #10b981, #34d399); }
+        .bar-fill.clareza { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #1e40af;
+            color: white;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .btn-primary:hover {
+            background: #1e3a8a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+        }
+
+        .btn-secondary {
+            background: #e5e7eb;
+            color: #1f2937;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .btn-secondary:hover {
+            background: #d1d5db;
+        }
+
+        .btn-success {
+            background: #059669;
+            color: white;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .btn-success:hover {
+            background: #047857;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .scale-container {
+                gap: 5px;
+            }
+
+            .scale-button {
+                padding: 8px;
+                font-size: 0.9rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border-left: 4px solid #dc2626;
+        }
+
+        .alert-success {
+            background: #f0fdf4;
+            color: #166534;
+            border-left: 4px solid #059669;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Teste de Perfil Comportamental</h1>
+            <p>Descubra seu perfil com a Metodologia Líder Flow</p>
+        </div>
+
+        <div class="content">
+            <!-- Seção 1: Dados Pessoais -->
+            <div class="form-section active" id="section-1">
+                <h2 style="margin-bottom: 30px; color: #1e40af;">Seus Dados</h2>
+                
+                <div class="form-group">
+                    <label for="nome">Nome Completo *</label>
+                    <input type="text" id="nome" placeholder="Digite seu nome completo" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-mail *</label>
+                    <input type="email" id="email" placeholder="Digite seu e-mail" required>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-primary" onclick="goToSection(2)">Começar Teste →</button>
+                </div>
+            </div>
+
+            <!-- Seção 2: Perguntas -->
+            <div class="questions-section" id="section-2">
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="currentQuestion">1</span> de <span id="totalQuestions">16</span>
+                    </div>
+                </div>
+
+                <div id="questionsContainer"></div>
+
+                <div class="button-group">
+                    <button class="btn-secondary" onclick="goToSection(1)">← Voltar</button>
+                    <button class="btn-primary" onclick="goToSection(3)">Ver Resultado →</button>
+                </div>
+            </div>
+
+            <!-- Seção 3: Resultados -->
+            <div class="results-section" id="section-3">
+                <div class="results-header">
+                    <h2>Seu Resultado</h2>
+                    <div class="profile-name" id="profileName"></div>
+                </div>
+
+                <div class="profile-description" id="profileDescription"></div>
+
+                <div class="chart-container">
+                    <div class="chart-title">Seus Perfis</div>
+                    <div id="resultsChart"></div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-success" onclick="downloadPDF()">📥 Baixar PDF</button>
+                    <button class="btn-primary" onclick="sendToSheets()">📊 Enviar para Planilha</button>
+                    <button class="btn-secondary" onclick="goToSection(1)">← Fazer Novo Teste</button>
+                </div>
+            </div>
+
+            <div id="alertContainer"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <script>
+        // Dados do teste
+        const questions = [
+            { text: "Quando surge um problema urgente, ajo rapidamente para resolver.", profile: "acao" },
+            { text: "Gosto de conversar e trocar ideias antes de tomar decisões.", profile: "inspiracao" },
+            { text: "Prefiro seguir rotinas e métodos já testados, pois me sinto mais seguro(a).", profile: "harmonia" },
+            { text: "Tenho o hábito de revisar meu trabalho para garantir que tudo esteja correto.", profile: "clareza" },
+            { text: "Gosto de assumir o comando e fazer as coisas acontecerem.", profile: "acao" },
+            { text: "Sou motivado(a) por um ambiente leve, colaborativo e positivo.", profile: "inspiracao" },
+            { text: "Prefiro planejar bem antes de começar uma tarefa nova.", profile: "harmonia" },
+            { text: "Analiso todas as informações com atenção e lógica antes de decidir.", profile: "clareza" },
+            { text: "Prefiro ter autonomia total para decidir o que fazer.", profile: "acao" },
+            { text: "Tenho facilidade em envolver as pessoas e gerar entusiasmo.", profile: "inspiracao" },
+            { text: "Gosto de ajudar o time a manter a harmonia e o clima equilibrado.", profile: "harmonia" },
+            { text: "Consigo identificar possíveis falhas e agir preventivamente.", profile: "clareza" },
+            { text: "Se algo não sai como o planejado, ajusto o rumo e sigo em frente.", profile: "acao" },
+            { text: "Tenho facilidade para lidar com diferentes pessoas e estilos.", profile: "inspiracao" },
+            { text: "Prefiro ambientes previsíveis, onde sei o que esperar.", profile: "harmonia" },
+            { text: "Sou exigente comigo mesmo(a) e busco entregar com qualidade.", profile: "clareza" }
+        ];
+
+        const profileDescriptions = {
+            acao: {
+                name: "AÇÃO - Executor",
+                description: "Você é focado em resultados, direto e competitivo. Tem facilidade em tomar decisões rápidas e liderar mudanças. Seu ponto forte é a capacidade de agir rapidamente e fazer as coisas acontecerem. Trabalhe no desenvolvimento da escuta ativa e na paciência com processos mais lentos."
+            },
+            inspiracao: {
+                name: "INSPIRAÇÃO - Comunicador",
+                description: "Você é criativo, entusiasta e sociável. Tem facilidade em envolver as pessoas e gerar engajamento. Seu ponto forte é a capacidade de inspirar e motivar equipes. Trabalhe no desenvolvimento de foco e na conclusão de projetos."
+            },
+            harmonia: {
+                name: "HARMONIA - Planejador",
+                description: "Você é calmo, cooperativo e valoriza estabilidade. Tem facilidade em manter o clima equilibrado e trabalhar em equipe. Seu ponto forte é a capacidade de criar ambientes seguros e harmoniosos. Trabalhe no desenvolvimento da assertividade e na tomada de decisões mais rápidas."
+            },
+            clareza: {
+                name: "CLAREZA - Analista",
+                description: "Você é analítico, detalhista e busca precisão. Tem facilidade em identificar problemas e soluções lógicas. Seu ponto forte é a capacidade de análise profunda e qualidade. Trabalhe no desenvolvimento da flexibilidade e na aceitação de ambiguidade."
+            }
+        };
+
+        let answers = {};
+        let currentSection = 1;
+
+        // Inicializar
+        function init() {
+            renderQuestions();
+            document.getElementById('totalQuestions').textContent = questions.length;
+        }
+
+        // Renderizar perguntas
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+
+            questions.forEach((q, index) => {
+                const div = document.createElement('div');
+                div.className = 'question-container';
+                div.innerHTML = `
+                    <div class="question-number">Pergunta ${index + 1}</div>
+                    <div class="question-text">${q.text}</div>
+                    <div class="scale-container">
+                        ${[1, 2, 3, 4, 5].map(value => `
+                            <button class="scale-button ${answers[index] === value ? 'selected' : ''}" 
+                                    onclick="selectAnswer(${index}, ${value})">
+                                ${value}
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div class="scale-labels">
+                        <span>Nada a ver</span>
+                        <span>Totalmente</span>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // Selecionar resposta
+        function selectAnswer(questionIndex, value) {
+            answers[questionIndex] = value;
+            renderQuestions();
+            updateProgress();
+            gtag('event', 'resposta_teste', {'pergunta': questionIndex + 1, 'valor': value});
+        }
+
+        // Atualizar barra de progresso
+        function updateProgress() {
+            const answered = Object.keys(answers).length;
+            const percentage = (answered / questions.length) * 100;
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('currentQuestion').textContent = answered;
+        }
+
+        // Ir para seção
+        function goToSection(section) {
+            // Validar seção 1
+            if (section === 2) {
+                const nome = document.getElementById('nome').value.trim();
+                const email = document.getElementById('email').value.trim();
+
+                if (!nome || !email) {
+                    showAlert('Por favor, preencha nome e e-mail', 'error');
+                    return;
+                }
+
+                if (!email.includes('@')) {
+                    showAlert('Por favor, digite um e-mail válido', 'error');
+                    return;
+                }
+            }
+
+            // Validar seção 2
+            if (section === 3) {
+                if (Object.keys(answers).length < questions.length) {
+                    showAlert('Por favor, responda todas as perguntas', 'error');
+                    return;
+                }
+                calculateResults();
+            }
+
+            // Mostrar/ocultar seções
+            document.querySelectorAll('[id^="section-"]').forEach(el => {
+                el.classList.remove('active');
+            });
+            document.getElementById('section-' + section).classList.add('active');
+            currentSection = section;
+            window.scrollTo(0, 0);
+        }
+
+        // Calcular resultados
+        function calculateResults() {
+            const scores = {
+                acao: 0,
+                inspiracao: 0,
+                harmonia: 0,
+                clareza: 0
+            };
+
+            questions.forEach((q, index) => {
+                if (answers[index]) {
+                    scores[q.profile] += answers[index];
+                }
+            });
+
+            // Encontrar perfil predominante
+            const maxScore = Math.max(...Object.values(scores));
+            const primaryProfile = Object.keys(scores).find(key => scores[key] === maxScore);
+
+            // Renderizar resultados
+            renderResults(scores, primaryProfile);
+            gtag('event', 'teste_completo', {'perfil': primaryProfile, 'pontos': maxScore});
+        }
+
+        // Renderizar resultados
+        function renderResults(scores, primaryProfile) {
+            const profile = profileDescriptions[primaryProfile];
+            document.getElementById('profileName').textContent = profile.name;
+            document.getElementById('profileDescription').textContent = profile.description;
+
+            // Renderizar gráfico
+            const chartHtml = Object.entries(scores).map(([key, value]) => `
+                <div class="profile-bar">
+                    <div class="profile-label">
+                        <span>${profileDescriptions[key].name}</span>
+                        <span>${value} pontos</span>
+                    </div>
+                    <div class="bar">
+                        <div class="bar-fill ${key}" style="width: ${(value / 20) * 100}%">
+                            ${Math.round((value / 20) * 100)}%
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('resultsChart').innerHTML = chartHtml;
+            window.scores = scores;
+            window.primaryProfile = primaryProfile;
+        }
+
+        // Baixar PDF
+        function downloadPDF() {
+            const element = document.querySelector('.results-section');
+            const opt = {
+                margin: 10,
+                filename: `Teste-Perfil-${document.getElementById('nome').value}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
+            };
+
+            html2pdf().set(opt).from(element).save();
+            gtag('event', 'download_pdf', {'perfil': window.primaryProfile});
+        }
+
+        // Enviar para Google Sheets
+        function sendToSheets() {
+            const nome = document.getElementById('nome').value;
+            const email = document.getElementById('email').value;
+            const data = {
+                nome: nome,
+                email: email,
+                perfil: window.primaryProfile,
+                acao: window.scores.acao,
+                inspiracao: window.scores.inspiracao,
+                harmonia: window.scores.harmonia,
+                clareza: window.scores.clareza,
+                data: new Date().toLocaleString('pt-BR')
+            };
+
+            // Usar Google Forms ou Apps Script
+            const formUrl = 'https://docs.google.com/forms/d/e/SEU_FORM_ID/formResponse';
+            
+            // Criar FormData
+            const formData = new FormData();
+            formData.append('entry.CAMPO_NOME', data.nome);
+            formData.append('entry.CAMPO_EMAIL', data.email);
+            formData.append('entry.CAMPO_PERFIL', data.perfil);
+            formData.append('entry.CAMPO_ACAO', data.acao);
+            formData.append('entry.CAMPO_INSPIRACAO', data.inspiracao);
+            formData.append('entry.CAMPO_HARMONIA', data.harmonia);
+            formData.append('entry.CAMPO_CLAREZA', data.clareza);
+            formData.append('entry.CAMPO_DATA', data.data);
+
+            // Enviar
+            fetch(formUrl, {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors'
+            }).then(() => {
+                showAlert('✓ Dados enviados com sucesso! Você receberá um e-mail em breve.', 'success');
+                gtag('event', 'envio_sheets', {'perfil': window.primaryProfile});
+            }).catch(() => {
+                showAlert('Houve um erro ao enviar os dados. Tente novamente.', 'error');
+            });
+        }
+
+        // Mostrar alerta
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alertContainer');
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.textContent = message;
+            alertContainer.innerHTML = '';
+            alertContainer.appendChild(alertDiv);
+
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+
+        // Inicializar ao carregar
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>
