@@ -649,48 +649,40 @@
             gtag('event', 'download_pdf', {'perfil': window.primaryProfile});
         }
 
-        // Enviar para Google Sheets
-        function sendToSheets() {
-            const nome = document.getElementById('nome').value;
-            const email = document.getElementById('email').value;
-            const data = {
-                nome: nome,
-                email: email,
-                perfil: window.primaryProfile,
-                acao: window.scores.acao,
-                inspiracao: window.scores.inspiracao,
-                harmonia: window.scores.harmonia,
-                clareza: window.scores.clareza,
-                data: new Date().toLocaleString('pt-BR')
-            };
+       // Enviar para Google Sheets
+function sendToSheets() {
+    const nome = document.getElementById('nome').value;
+    const email = document.getElementById('email').value;
+    const data = {
+        nome: nome,
+        email: email,
+        perfil: window.primaryProfile,
+        acao: window.scores.acao,
+        inspiracao: window.scores.inspiracao,
+        harmonia: window.scores.harmonia,
+        clareza: window.scores.clareza,
+        data: new Date().toLocaleString('pt-BR')
+    };
 
-            // Usar Google Forms ou Apps Script
-            const formUrl = 'https://script.googleapis.com/macros/d/https://script.google.com/macros/s/AKfycbyfccpNI4Fn1p4q_r77QRTorxnqyReTIWUNJJg3IJpBz946CFC8l8MLBHOKDkDsvNpBRQ/exec/exec/usercripts';
+    // URL corrigida do Google Apps Script
+    const formUrl = 'https://script.google.com/macros/s/AKfycbyfccpNI4Fn1p4q_r77QRTorxnqyReTIWUNJJg3IJpBz946CFC8l8MLBHOKDkDsvNpBRQ/usercripts';
 
-            
-            // Criar FormData
-            const formData = new FormData();
-            formData.append('entry.CAMPO_NOME', data.nome);
-            formData.append('entry.CAMPO_EMAIL', data.email);
-            formData.append('entry.CAMPO_PERFIL', data.perfil);
-            formData.append('entry.CAMPO_ACAO', data.acao);
-            formData.append('entry.CAMPO_INSPIRACAO', data.inspiracao);
-            formData.append('entry.CAMPO_HARMONIA', data.harmonia);
-            formData.append('entry.CAMPO_CLAREZA', data.clareza);
-            formData.append('entry.CAMPO_DATA', data.data);
+    // Enviar dados como JSON
+    fetch(formUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data ),
+        mode: 'no-cors'
+    }).then(() => {
+        showAlert('✓ Dados enviados com sucesso! Você receberá um e-mail em breve.', 'success');
+        gtag('event', 'envio_sheets', {'perfil': window.primaryProfile});
+    }).catch(() => {
+        showAlert('Houve um erro ao enviar os dados. Tente novamente.', 'error');
+    });
+}
 
-            // Enviar
-            fetch(formUrl, {
-                method: 'POST',
-                body: formData,
-                mode: 'no-cors'
-            }).then(() => {
-                showAlert('✓ Dados enviados com sucesso! Você receberá um e-mail em breve.', 'success');
-                gtag('event', 'envio_sheets', {'perfil': window.primaryProfile});
-            }).catch(() => {
-                showAlert('Houve um erro ao enviar os dados. Tente novamente.', 'error');
-            });
-        }
 
         // Mostrar alerta
         function showAlert(message, type) {
